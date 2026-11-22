@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InkPress Studio — Custom Prints, Stickers & Rush Documents</title>
+  <meta name="description" content="Fast, vibrant custom printing for small businesses and students. Die-cut stickers, business cards, flyers, and same-day document pickup." />
+
+  <!-- Google Fonts (clean system fallbacks included) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================
+       1. THEME VARIABLES (Edit these to re-skin)
+       Cafe idea: --bg: #FBF8F3; --accent: #A45C2E; --ink: #241914;
+    ========================================= */
+    :root {
+      --bg: #FAF9F6;
+      --surface: #FFFFFF;
+      --surface-alt: #F2EFE9;
+      --ink: #141824;
+      --muted: #525866;
+      --accent: #0ab4e4;       /* AA-safe contrast with white text */
+      --accent-dark: #0487ac;
+      --accent-soft: #FDECE8;
+      --teal: #0F766E;
+      --teal-soft: #E6F4F1;
+      --border: #E5E2DC;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(20, 24, 36, 0.06);
+      --max-w: 1080px;
+    }
+
+    /* =========================================
+       2. RESET & BASE (Mobile-First)
+    ========================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-header {
+      margin-bottom: 32px;
+      max-width: 600px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 5px 11px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      margin-bottom: 10px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    /* =========================================
+       3. BUTTONS
+    ========================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--ink);
+      background: var(--surface);
+    }
+
+    /* =========================================
+       4. HEADER & MOBILE NAVIGATION
+    ========================================= */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 249, 246, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #08abf7;
+      display: grid;
+      place-items: center;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .menu-toggle {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px 24px;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links.is-open {
+      display: flex;
+    }
+
+    .nav-links a {
+      font-weight: 600;
+      padding: 6px 0;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-links .btn {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    /* =========================================
+       5. HERO SECTION
+    ========================================= */
+    .hero {
+      padding: 44px 0 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.1rem);
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 24px;
+      max-width: 520px;
+      /* Justified on all sizes; last line stays left-aligned */
+      text-align: justify;
+      text-align-last: left;
+      /* Improve inter-word spacing on narrow viewports */
+      hyphens: auto;
+      -webkit-hyphens: auto;
+      overflow-wrap: break-word;
+    }
+
+    /* On wider columns the paragraph breathes enough that justify looks natural */
+    @media (min-width: 480px) {
+      .hero p {
+        hyphens: manual; /* fewer forced breaks once the column is wide enough */
+      }
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions .btn {
+      flex: 1 1 180px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .trust-row span::before {
+      content: "✓ ";
+      color: var(--teal);
+      font-weight: 800;
+    }
+
+    /* Visual Showcase Card (Replace with a real shop photo later) */
+    .hero-card {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(20, 24, 36, 0.16);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(9, 210, 224, 0.35), transparent 75%);
+      top: -40px;
+      right: -40px;
+      pointer-events: none;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22C55E;
+    }
+
+    .spec-list {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+
+    .spec-item strong {
+      color: #FDBA74;
+    }
+
+    .hero-card-note {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* =========================================
+       6. SERVICES & PRICING GRID
+    ========================================= */
+    .bg-alt {
+      background: var(--surface-alt);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cards-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      white-space: nowrap;
+    }
+
+    .service-card h3 {
+      font-size: 1.12rem;
+    }
+
+    .service-card p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .unit {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* =========================================
+       7. SAMPLE WORK & TESTIMONIALS
+    ========================================= */
+    .showcase-grid {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    /* Swap .sample-thumb background for <img src="photo.webp" alt="..."> on real client builds */
+    .sample-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .sample-thumb {
+      aspect-ratio: 16 / 10;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+.sample-thumb {
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.sample-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+@media (hover: hover) {
+  .sample-card:hover .sample-thumb img {
+    transform: scale(1.04);
+  }
+}
+
+    .sample-body {
+      padding: 16px;
+    }
+
+    .sample-body h3 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .sample-body p {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .review-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .review-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .review-card blockquote {
+      font-size: 0.94rem;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+
+    .review-author {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    /* =========================================
+       8. HOW TO ORDER & FAQ ACCORDION
+    ========================================= */
+    .steps-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .step-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.9rem;
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+    }
+
+    .step-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .step-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      max-width: 760px;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .faq-trigger {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 18px 20px;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .faq-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+
+    .faq-trigger[aria-expanded="true"] .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-panel {
+      /* Padding lives on .faq-panel-inner; outer panel must stay padding:0
+         so the grid-template-rows:0fr collapse hides all visible space. */
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    /* =========================================
+       9. CTA BANNER & FOOTER
+    ========================================= */
+    .cta-box {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-radius: 20px;
+      padding: 36px 24px;
+      text-align: center;
+    }
+
+    .cta-box h2 {
+      margin-bottom: 10px;
+    }
+
+    .cta-box p {
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 520px;
+      margin: 0 auto 24px;
+    }
+
+    .site-footer {
+      padding: 48px 0 28px;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .footer-grid {
+      display: grid;
+      gap: 28px;
+      margin-bottom: 32px;
+    }
+
+    .footer-grid h3 {
+      color: var(--ink);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+
+    .footer-list {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+
+    .portfolio-bar {
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.82rem;
+    }
+
+    .portfolio-bar a {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* =========================================
+       10. ANIMATIONS & MICRO-INTERACTIONS
+    ========================================= */
+
+    /* --- Hero entrance keyframe --- */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Hero elements: start invisible, animate in with stagger */
+    .hero-animate {
+      opacity: 0;
+      animation: fadeUp 0.5s ease-out forwards;
+    }
+
+    .hero-animate:nth-child(1) { animation-delay: 0ms; }
+    .hero-animate:nth-child(2) { animation-delay: 80ms; }
+    .hero-animate:nth-child(3) { animation-delay: 160ms; }
+    .hero-animate:nth-child(4) { animation-delay: 240ms; }
+
+    /* Hero card lives outside the text column, so target by class */
+    .hero-card-animate {
+      opacity: 0;
+      animation: fadeUp 0.5s ease-out 320ms forwards;
+    }
+
+    /* --- Scroll reveal base state --- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Hover elevation: cards (desktop/mouse only) --- */
+    @media (hover: hover) {
+      .service-card,
+      .sample-card,
+      .review-card,
+      .step-card {
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      .service-card:hover,
+      .sample-card:hover,
+      .review-card:hover,
+      .step-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(20, 24, 36, 0.13);
+      }
+
+      /* Button scale + bg transition on hover */
+      .btn {
+        transition: transform 0.15s ease, background-color 0.2s ease,
+                    border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn-primary:hover {
+        transform: scale(1.03);
+        background: var(--accent-dark);
+      }
+
+      .btn-outline:hover {
+        transform: scale(1.03);
+        border-color: var(--ink);
+        background: var(--surface);
+      }
+    }
+
+    /* Active press always applies (all devices) */
+    .btn:active {
+      transform: scale(0.97) !important;
+    }
+
+    /* --- Smooth FAQ accordion via grid trick --- */
+    .faq-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.32s ease;
+      /* override old display:none rule */
+    }
+
+    .faq-panel.is-open {
+      grid-template-rows: 1fr;
+    }
+
+    /* Inner wrapper lets overflow:hidden work with grid */
+    .faq-panel-inner {
+      overflow: hidden;
+      padding: 0 20px;
+    }
+
+    /* Fade-in the text as panel expands */
+    .faq-panel-inner > * {
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.25s ease 0.08s, transform 0.25s ease 0.08s;
+    }
+
+    .faq-panel.is-open .faq-panel-inner > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Bottom padding via the inner wrapper when open */
+    .faq-panel.is-open .faq-panel-inner {
+      padding-bottom: 18px;
+    }
+
+    /* --- Reduced motion: kill everything --- */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-animate,
+      .hero-card-animate {
+        animation: none;
+        opacity: 1;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      .faq-panel,
+      .faq-panel-inner > * {
+        transition: none;
+      }
+
+      @media (hover: hover) {
+        .service-card,
+        .sample-card,
+        .review-card,
+        .step-card,
+        .btn-primary,
+        .btn-outline {
+          transition: none;
+        }
+
+        .service-card:hover,
+        .sample-card:hover,
+        .review-card:hover,
+        .step-card:hover,
+        .btn-primary:hover,
+        .btn-outline:hover {
+          transform: none;
+          box-shadow: var(--shadow);
+        }
+      }
+    }
+
+    /* =========================================
+       11. RESPONSIVE BREAKPOINTS
+    ========================================= */
+    @media (min-width: 640px) {
+      .cards-grid,
+      .review-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-actions .btn {
+        flex: 0 0 auto;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .menu-toggle {
+        display: none;
+      }
+
+      .nav-links {
+        display: flex;
+        position: static;
+        flex-direction: row;
+        align-items: center;
+        background: transparent;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+        gap: 24px;
+      }
+
+      .nav-links .btn {
+        width: auto;
+        margin-top: 0;
+        min-height: 40px;
+        padding: 8px 16px;
+      }
+
+      .steps-grid,
+      .showcase-grid,
+      .footer-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 960px) {
+      section {
+        padding: 84px 0;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 48px;
+      }
+
+      .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a href="#" class="brand">
+        <span class="brand-mark">IP</span>
+        <span>InkPress Studio</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#services">Pricing</a>
+        <a href="#work">Samples</a>
+        <a href="#how-to-order">How to Order</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://www.facebook.com/jamesckarljc.angcanan72/" target="_blank" rel="noopener" class="btn btn-primary">Order via Messenger</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow hero-animate">Same-Day Pickup Available</span>
+          <h1 class="hero-animate">Crisp prints for small shops, events, and rush deadlines.</h1>
+          <p class="hero-animate hero-lead">
+            From waterproof vinyl stickers and calling cards to full-color flyers and thesis binding — all in your hands! Send your file online and pick up without waiting in line.
+          </p>
+
+          <div class="hero-actions hero-animate">
+            <a href="https://www.facebook.com/jamesckarljc.angcanan72/" target="_blank" rel="noopener" class="btn btn-primary">
+              Send Your File Now
+            </a>
+            <a href="#services" class="btn btn-outline">
+              View Price List
+            </a>
+          </div>
+
+          <div class="trust-row">
+            <span>No minimum on documents</span>
+            <span>GCash &amp; Maya accepted</span>
+            <span>Free layout check</span>
+          </div>
+        </div>
+
+        <aside class="hero-card hero-card-animate" aria-label="Today's quick turnaround rates">
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            Open Today • 8:00 AM – 7:00 PM
+          </div>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span>Vinyl Waterproof Stickers</span>
+              <strong>₱45 / sheet</strong>
+            </div>
+            <div class="spec-item">
+              <span>Matte Business Cards (100 pcs)</span>
+              <strong>₱250</strong>
+            </div>
+            <div class="spec-item">
+              <span>A4 Colored Document Print</span>
+              <strong>₱5 / page</strong>
+            </div>
+            <div class="spec-item">
+              <span>Tarpaulin Print (per sq. ft.)</span>
+              <strong>₱18</strong>
+            </div>
+          </div>
+          <p class="hero-card-note">
+            Bulk discounts apply automatically for 500+ pieces or student organization orders.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= SERVICES & PRICING ================= -->
+    <section id="services" class="bg-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow">Transparent Rates</span>
+          <h2>Popular Print Services</h2>
+          <p class="lead">Clear starting prices with no hidden setup fees. Message me for custom sizes or bulk quotes.</p>
+        </div>
+
+        <div class="cards-grid">
+          <article class="service-card reveal">
+            <div>
+              <div class="card-top">
+                <h3>Die-Cut Vinyl Stickers</h3>
+                <span class="tag">Best Seller</span>
+              </div>
+              <p>Scratch-proof, waterproof matte or glossy finish. Ideal for milk tea cups, food trays, and packaging seals.</p>
+            </div>
+            <div class="price-row">
+              <span class="price">₱44.99</span>
+              <span class="unit">per A4 sheet (kiss-cut)</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div>
+              <div class="card-top">
+                <h3>Business &amp; Loyalty Cards</h3>
+                <span class="tag">24-Hr Release</span>
+              </div>
+              <p>Thick 300gsm board with crisp edges. Optional matte lamination or rounded corners available.</p>
+            </div>
+            <div class="price-row">
+              <span class="price">₱249.99</span>
+              <span class="unit">per 100 pcs (1-sided)</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div>
+              <div class="card-top">
+                <h3>Flyers &amp; Menu Sheets</h3>
+                <span class="tag">Same Day</span>
+              </div>
+              <p>High-resolution color printing on 120gsm glossy paper for promos, café menus, and local deliveries.</p>
+            </div>
+            <div class="price-row">
+              <span class="price">₱349.99</span>
+              <span class="unit">per 50 pcs (A5)</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div>
+              <div class="card-top">
+                <h3>Rush Docs &amp; Binding</h3>
+                <span class="tag">Walk-In OK</span>
+              </div>
+              <p>Clean laser prints for resumes, reports, and thesis manuscripts with ring or soft binding.</p>
+            </div>
+            <div class="price-row">
+              <span class="price">₱1.99–₱4.99</span>
+              <span class="unit">per page (B&amp;W / Color)</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div>
+              <div class="card-top">
+                <h3>Tarpaulins &amp; Posters</h3>
+                <span class="tag">Weatherproof</span>
+              </div>
+              <p>Heavy-duty 13oz tarp with free eyelets and clean folding for store signage and birthdays.</p>
+            </div>
+            <div class="price-row">
+              <span class="price">₱17.99</span>
+              <span class="unit">per sq. ft.</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div>
+              <div class="card-top">
+                <h3>Custom Tote &amp; Merch</h3>
+                <span class="tag">Low MOQ</span>
+              </div>
+              <p>Vibrant DTF heat-press prints on canvas totes and cotton tees for brand launches or events.</p>
+            </div>
+            <div class="price-row">
+              <span class="price">₱139.99</span>
+              <span class="unit">per piece (min. 10)</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SAMPLE WORK & REVIEWS ================= -->
+    <section id="work">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow">Recent Runs</span>
+          <h2>Quality You Can Hold</h2>
+          <p class="lead">Every batch goes through a color and trim check before packing.</p>
+        </div>
+
+<div class="showcase-grid">
+  <article class="sample-card reveal">
+    <div class="sample-thumb">
+      <img src="images/Sticker.jpg" alt="Brew & Co. vinyl stickers and stamp loyalty cards" loading="lazy" />
+    </div>
+    <div class="sample-body">
+      <h3>Local Coffee Brand Launch</h3>
+      <p>300 waterproof matte cup stickers and 200 stamp loyalty cards delivered in 24 hours.</p>
+    </div>
+  </article>
+
+  <article class="sample-card reveal">
+    <div class="sample-thumb">
+      <img src="images/Event Merch.jpg" alt="Campus Organization Week lanyards, decals, and poster" loading="lazy" />
+    </div>
+    <div class="sample-body">
+      <h3>Campus Organization Week</h3>
+      <p>Custom lanyards, vinyl decals, and 4x6 welcome tarpaulin printed on a tight student budget.</p>
+    </div>
+  </article>
+
+  <article class="sample-card reveal">
+    <div class="sample-thumb">
+      <img src="images/Menu.jpg" alt="Neighborhood Bakehouse laminated menus and sticker sheets" loading="lazy" />
+    </div>
+    <div class="sample-body">
+      <h3>Neighborhood Bakehouse</h3>
+      <p>Laminated counter menus and box seal stickers matched to the shop's exact brand colors.</p>
+    </div>
+  </article>
+</div>
+
+        <div class="review-grid">
+          <article class="review-card reveal">
+            <blockquote>“Sent our Canva link at 10 AM and picked up 500 cup stickers before closing. Zero smudging even on iced drinks.”</blockquote>
+            <p class="review-author">— Noname, HDT Café Owner</p>
+          </article>
+          <article class="review-card reveal">
+            <blockquote>“Super easy to deal with. They caught a blurry logo in our flyer file before printing and fixed the margins for free.”</blockquote>
+            <p class="review-author">— Emanon, Beyonder Food Owner</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW TO ORDER + FAQ ================= -->
+    <section id="how-to-order" class="bg-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow">Fast Workflow</span>
+          <h2>How to Order in 3 Steps</h2>
+          <p class="lead">Skip the long shop queues—confirm everything from your phone first.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-num">1</div>
+            <h3>Send Your File</h3>
+            <p>Message me on Facebook with your PDF, PNG, or Canva share link, plus your size and quantity.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-num">2</div>
+            <h3>Approve Proof &amp; Pay</h3>
+            <p>We check resolution and cut lines, confirm the exact total, and accept a 50% down payment via GCash or Maya.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-num">3</div>
+            <h3>Pick Up or Book Rider</h3>
+            <p>We message you as soon as your prints are packed for shop pickup or same-day Lalamove/rider booking.</p>
+          </div>
+        </div>
+
+        <div id="faq" class="section-header">
+          <h2>Quick Answers</h2>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false">
+              <span>What file formats give the sharpest print results?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-panel">
+              <div class="faq-panel-inner">
+                <p>Export your design as a high-resolution PDF (Print) or 300 DPI PNG. If you used Canva, you can simply send us the view/download link so we can check margins for you.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false">
+              <span>Do you offer layout assistance if I don't have a ready file?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-panel">
+              <div class="faq-panel-inner">
+                <p>Yes. Basic resizing and bleed adjustments are free. Full custom layouts for flyers, menus, or tarpaulins start at ₱150 depending on complexity.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false">
+              <span>How fast is turnaround for rush orders?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-panel">
+              <div class="faq-panel-inner">
+                <p>Documents, flyers, and standard tarpaulins are usually ready within 2–4 hours. Die-cut stickers and laminated business cards take 24 hours, with rush slots available upon request.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BOTTOM CTA ================= -->
+    <section>
+      <div class="container">
+        <div class="cta-box">
+          <h2>Ready to print your next batch?</h2>
+          <p>Message me your file size and quantity for an exact quote in under 15 minutes during shop hours.</p>
+          <a href="https://www.facebook.com/jamesckarljc.angcanan72/" target="_blank" rel="noopener" class="btn btn-primary">
+            Message Me on Facebook
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>InkPress Studio</h3>
+          <p>Fast, reliable digital printing for local entrepreneurs, cafés, and students.</p>
+        </div>
+        <div>
+          <h3>Store Hours</h3>
+          <ul class="footer-list">
+            <li>Mon – Sat: 8:00 AM – 7:00 PM</li>
+            <li>Sunday: Pickup by appointment</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Location &amp; Contact</h3>
+          <ul class="footer-list">
+            <li>Imaginary Address fr</li>
+            <li>FB / Messenger: JC Angcanan</li>
+            <li>Email: angcananjamesckarljc@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="portfolio-bar">
+        <span>© 2026 InkPress Studio (Concept for My Portfolio)</span>
+        <span>Want a 1-page site like this? <a href="https://www.facebook.com/jamesckarljc.angcanan72/" target="_blank" rel="noopener">Message Me</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= LIGHTWEIGHT JS ================= -->
+  <script>
+    // ── Mobile menu toggle ──────────────────────────────
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("is-open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    // ── FAQ accordion (CSS grid-rows transition) ────────
+    document.querySelectorAll(".faq-trigger").forEach((button) => {
+      button.addEventListener("click", () => {
+        const expanded = button.getAttribute("aria-expanded") === "true";
+        const panel = button.nextElementSibling;
+        button.setAttribute("aria-expanded", String(!expanded));
+        panel.classList.toggle("is-open", !expanded);
+      });
+    });
+
+    // ── Scroll reveal with IntersectionObserver ─────────
+    // Skip if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!prefersReducedMotion) {
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            const el = entry.target;
+            // Stagger siblings inside the same grid parent
+            const siblings = Array.from(el.parentElement.querySelectorAll(".reveal"));
+            const index = siblings.indexOf(el);
+            el.style.transitionDelay = (index * 80) + "ms";
+
+            el.classList.add("is-visible");
+            observer.unobserve(el); // fire once only
+
+            // Clear the stagger delay after reveal finishes so hover
+            // transitions on all cards respond instantly and equally
+            el.addEventListener("transitionend", () => {
+              el.style.transitionDelay = "0ms";
+            }, { once: true });
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+    } else {
+      // Immediately show all reveal elements
+      document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
+    }
+  </script>
+</body>
+</html>
